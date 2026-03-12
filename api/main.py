@@ -6,6 +6,11 @@ from monitor.process import get_processes
 from monitor.kernel_cpu import get_cpu_stat
 from monitor.kernel_memory import get_memory_info
 from monitor.load import get_load_average
+from monitor.network import get_network_stats
+from fastapi import Response
+from prometheus_client import generate_latest
+from monitor.metrics import update_metrics
+
 
 app = FastAPI()
 
@@ -40,3 +45,13 @@ def kernel_memory():
 @app.get("/kernel/load")
 def kernel_load():
     return get_load_average()
+
+
+@app.get("/kernel/network")
+def network():
+    return get_network_stats()
+
+@app.get("/metrics")
+def metrics():
+    update_metrics()
+    return Response(generate_latest(), media_type="text/plain")
