@@ -1,0 +1,7 @@
+services:
+  linux-monitor:
+    build: .
+    container_name: linux-monitor
+    ports:
+      - "8000:8000"
+    restart: always
